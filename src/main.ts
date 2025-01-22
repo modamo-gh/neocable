@@ -7,12 +7,12 @@ app.on("ready", () => {
 		width: 800,
 		height: 600,
 		webPreferences: {
-			preload: `${__dirname}/preload.js`,
+			preload: `${__dirname}/preload.ts`,
 			contextIsolation: true
 		}
 	});
 
-	mainWindow.loadFile("index.html");
+	mainWindow.loadFile("../index.html");
 });
 
 app.on("window-all-closed", () => {

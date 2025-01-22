@@ -11,7 +11,7 @@ wss.on("connection", (ws) => {
 	ws.on("message", (message) => {
         const textMessage = message.toString()
 
-		console.log("Message", message);
+		console.log("Message", textMessage);
 
 		if (textMessage === "play") {
 			console.log("play");

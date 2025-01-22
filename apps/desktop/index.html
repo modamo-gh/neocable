@@ -24,5 +24,20 @@
 				console.log("Received from server", message);
 			});
 		</script>
+		<script>
+			const controlVideo = (command) => {
+				const video = document.getElementById("video-player");
+
+				if (!video) {
+					console.error("Video element not found");
+				}
+
+				if (command === "play") {
+					video.play();
+				} else if (command === "pause") {
+					video.pause();
+				}
+			};
+		</script>
 	</body>
 </html>

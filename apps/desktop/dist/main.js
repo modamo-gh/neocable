@@ -5,18 +5,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const electron_1 = require("electron");
 const ws_1 = __importDefault(require("ws"));
-let mainWindow;
+let mainWindow = null;
+let isDOMReady = false;
 const wss = new ws_1.default.Server({ port: 8080 });
 wss.on("connection", (ws) => {
     console.log("Client connected");
     ws.on("message", (message) => {
-        const textMessage = message.toString();
-        console.log("Message", textMessage);
-        if (textMessage === "play") {
-            console.log("play");
+        if (!isDOMReady) {
+            console.log("DOM is not ready");
+            return;
         }
-        else if (textMessage === "pause") {
-            console.log("pause");
+        const command = message.toString();
+        console.log("Command", command);
+        const videoPlayer = electron_1.BrowserWindow.getAllWindows()[0].webContents;
+        if (command === "play" || command === "pause") {
+            videoPlayer
+                .executeJavaScript(`controlVideo("${command}")`)
+                .catch((error) => console.error("Error executing video command", error));
         }
     });
     ws.send("Connected");
@@ -30,7 +35,15 @@ electron_1.app.on("ready", () => {
             contextIsolation: true
         }
     });
+    mainWindow.webContents.openDevTools();
     mainWindow.loadFile("../index.html");
+    mainWindow.webContents.on("dom-ready", () => {
+        isDOMReady = true;
+        console.log("DOM is ready");
+    });
+    mainWindow.on("closed", () => {
+        mainWindow = null;
+    });
 });
 electron_1.app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {

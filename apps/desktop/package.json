@@ -1,0 +1,19 @@
+{
+	"name": "desktop",
+	"version": "1.0.0",
+	"main": "dist/main.js",
+	"scripts": {
+	  "start": "npx electron ./dist/main.js",
+	  "build": "tsc"
+	},
+	"dependencies": {
+	  "electron": "^26.1.0",
+	  "ws": "^8.18.0"
+	},
+	"devDependencies": {
+	  "@types/node": "^18.16.19",
+	  "@types/ws": "^8.5.12",
+	  "typescript": "^5.2.2"
+	}
+  }
+  

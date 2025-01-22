@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView, Text } from "react-native";
+import { Pressable, SafeAreaView, Text, View } from "react-native";
 
 const App = () => {
 	const [messages, setMessages] = useState<string[]>([]);
+	const ws = new WebSocket("ws://192.168.0.158:8080");
 
 	useEffect(() => {
-		const ws = new WebSocket("ws://192.168.0.158:8080");
-
 		ws.onopen = () => {
 			console.log("Connected to WebSocket server");
 			ws.send("Hello from mobile app!");
@@ -31,11 +30,51 @@ const App = () => {
 	}, []);
 
 	return (
-		<SafeAreaView style={{flex: 1, backgroundColor: "white"}}>
+		<SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
 			<Text>Messages:</Text>
 			{messages.map((message, index) => (
 				<Text key={index}>{message}</Text>
 			))}
+			<View
+				style={{
+					flexDirection: "row",
+					width: "100%",
+					justifyContent: "space-around"
+				}}
+			>
+				<Pressable
+					onPress={() => {
+						ws.send("play");
+					}}
+					style={{
+						width: 72,
+						height: 48,
+						backgroundColor: "green",
+						justifyContent: "center",
+						alignItems: "center"
+					}}
+				>
+					<Text style={{ color: "white", fontWeight: "bold" }}>
+						Play
+					</Text>
+				</Pressable>
+				<Pressable
+					onPress={() => {
+						ws.send("pause");
+					}}
+					style={{
+						width: 72,
+						height: 48,
+						backgroundColor: "green",
+						justifyContent: "center",
+						alignItems: "center"
+					}}
+				>
+					<Text style={{ color: "white", fontWeight: "bold" }}>
+						Pause
+					</Text>
+				</Pressable>
+			</View>
 		</SafeAreaView>
 	);
 };

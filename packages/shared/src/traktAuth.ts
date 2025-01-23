@@ -35,6 +35,34 @@ export const exchangeToken = async (authCode: string) => {
 	}
 };
 
+export const fetchMovieRecommendations = async () => {
+	const accessToken = await getValidToken();
+	console.log("Using Access Token:", accessToken);
+
+	try {
+		const response = await axios.get(
+			"https://api.trakt.tv/recommendations/movies",
+			{
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+					"Content-Type": "application/json",
+					"trakt-api-version": "2",
+					"trakt-api-key": process.env.TRAKT_CLIENT_ID
+				}
+			}
+		);
+
+		console.log("Movie Recommendations:", response.data);
+		return response.data;
+	} catch (error: any) {
+		console.error(
+			"Failed to fetch movie recommendations:",
+			error.response?.data || error.message
+		);
+		throw error;
+	}
+};
+
 export const fetchUserProfile = async () => {
 	const accessToken = await getValidToken();
 	console.log("Using Access Token:", accessToken);

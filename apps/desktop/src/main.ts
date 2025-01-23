@@ -5,6 +5,7 @@ import WebSocket from "ws";
 import {
 	exchangeToken,
 	fetchUserProfile,
+    fetchMovieRecommendations,
 	generateTraktAuthURL,
 	loadToken,
 	saveToken
@@ -95,10 +96,10 @@ app.on("ready", async () => {
 	if (savedToken) {
 		console.log("Token found. Fetching user profile...");
 		try {
-			const userProfile = await fetchUserProfile();
-			console.log("User Profile Data:", userProfile);
+			const movieRecommendations = await fetchMovieRecommendations();
+			console.log("Movie Recommendations:", movieRecommendations);
 		} catch (error) {
-			console.error("Failed to fetch user profile:", error);
+			console.error("Failed to fetch movie recommendations:", error);
 		}
 	} else {
 		console.log("No token found. Starting OAuth flow...");

@@ -36,7 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.saveToken = exports.refreshAccessToken = exports.loadToken = exports.getValidToken = exports.generateTraktAuthURL = exports.fetchUserProfile = exports.exchangeToken = void 0;
+exports.saveToken = exports.refreshAccessToken = exports.loadToken = exports.getValidToken = exports.generateTraktAuthURL = exports.fetchUserProfile = exports.fetchMovieRecommendations = exports.exchangeToken = void 0;
 const axios_1 = __importDefault(require("axios"));
 const dotenv_1 = require("dotenv");
 const fs = __importStar(require("fs"));
@@ -68,17 +68,38 @@ const exchangeToken = async (authCode) => {
     }
 };
 exports.exchangeToken = exchangeToken;
+const fetchMovieRecommendations = async () => {
+    const accessToken = await (0, exports.getValidToken)();
+    console.log("Using Access Token:", accessToken);
+    try {
+        const response = await axios_1.default.get("https://api.trakt.tv/recommendations/movies", {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+                "trakt-api-version": "2",
+                "trakt-api-key": process.env.TRAKT_CLIENT_ID
+            }
+        });
+        console.log("Movie Recommendations:", response.data);
+        return response.data;
+    }
+    catch (error) {
+        console.error("Failed to fetch movie recommendations:", error.response?.data || error.message);
+        throw error;
+    }
+};
+exports.fetchMovieRecommendations = fetchMovieRecommendations;
 const fetchUserProfile = async () => {
     const accessToken = await (0, exports.getValidToken)();
-    console.log("Using Access Token:", accessToken); // Debug log
+    console.log("Using Access Token:", accessToken);
     try {
         const response = await axios_1.default.get("https://api.trakt.tv/users/me", {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 "Content-Type": "application/json",
                 "trakt-api-version": "2",
-                "trakt-api-key": process.env.TRAKT_CLIENT_ID,
-            },
+                "trakt-api-key": process.env.TRAKT_CLIENT_ID
+            }
         });
         console.log("User Profile:", response.data);
         return response.data;

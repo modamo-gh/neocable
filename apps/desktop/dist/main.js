@@ -62,19 +62,19 @@ electron_1.app.on("ready", async () => {
         height: 600,
         webPreferences: {
             preload: `${__dirname}/preload.ts`,
-            contextIsolation: true,
-        },
+            contextIsolation: true
+        }
     });
     mainWindow.loadFile("../index.html");
     const savedToken = (0, traktAuth_1.loadToken)();
     if (savedToken) {
         console.log("Token found. Fetching user profile...");
         try {
-            const userProfile = await (0, traktAuth_1.fetchUserProfile)();
-            console.log("User Profile Data:", userProfile);
+            const movieRecommendations = await (0, traktAuth_1.fetchMovieRecommendations)();
+            console.log("Movie Recommendations:", movieRecommendations);
         }
         catch (error) {
-            console.error("Failed to fetch user profile:", error);
+            console.error("Failed to fetch movie recommendations:", error);
         }
     }
     else {

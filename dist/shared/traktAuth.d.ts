@@ -1,4 +1,5 @@
 export declare const exchangeToken: (authCode: string) => Promise<any>;
+export declare const fetchMovieRecommendations: () => Promise<any>;
 export declare const fetchUserProfile: () => Promise<any>;
 export declare const generateTraktAuthURL: () => string;
 export declare const getValidToken: () => Promise<string>;

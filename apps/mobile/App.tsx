@@ -3,7 +3,7 @@ import { Pressable, SafeAreaView, Text, View } from "react-native";
 
 const App = () => {
 	const [messages, setMessages] = useState<string[]>([]);
-	const ws = new WebSocket("ws://192.168.0.158:8080");
+	const ws = new WebSocket("ws://192.168.0.175:8080");
 
 	useEffect(() => {
 		ws.onopen = () => {

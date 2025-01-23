@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "outDir": "../../dist/shared",
+      "rootDir": "./src",
+      "module": "commonjs",
+      "target": "esnext",
+      "declaration": true,
+      "strict": true,
+      "esModuleInterop": true
+    },
+    "include": ["src/**/*.ts"]
+  }
+  

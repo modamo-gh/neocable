@@ -5,10 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const electron_1 = require("electron");
 const ws_1 = __importDefault(require("ws"));
-const traktAuth_1 = require("../../../dist/shared/traktAuth");
+const traktAuth_1 = require("../../../packages/shared/src/traktAuth");
 const http_1 = __importDefault(require("http"));
-const dotenv_1 = require("dotenv");
-(0, dotenv_1.configDotenv)({ path: "../../../.env" });
 let mainWindow = null;
 let isDOMReady = false;
 const wss = new ws_1.default.Server({ port: 8080 });
@@ -41,7 +39,6 @@ electron_1.app.on("ready", () => {
     });
     mainWindow.loadFile("../index.html");
     const TRAKT_AUTH_URL = (0, traktAuth_1.generateTraktAuthURL)();
-    console.log(TRAKT_AUTH_URL);
     electron_1.shell.openExternal(TRAKT_AUTH_URL);
     const server = http_1.default.createServer(async (req, res) => {
         const url = new URL(req.url || "", `http://${req.headers.host}`);

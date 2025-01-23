@@ -1,18 +1,22 @@
 {
-    "name": "neocable",
-    "version": "1.0.0",
-    "private": true,
-    "workspaces": [
+  "name": "neocable",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": {
+    "packages": [
       "apps/*",
       "packages/*"
-    ],
-    "scripts": {
-      "build": "npm run build --workspaces",
-      "start:desktop": "npm run start --workspace=desktop"
-    },
-    "devDependencies": {
-      "typescript": "^5.2.2",
-      "concurrently": "^7.6.0"
-    }
+    ]
+  },
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "start:desktop": "npm run start --workspace=desktop"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7"
   }
-  
+}
